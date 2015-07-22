@@ -93,5 +93,4 @@ void messageSocket(t_core *core)
 	  i += 1;
 	}
     }
-  my_putstr("\n");
 }

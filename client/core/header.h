@@ -53,6 +53,7 @@ int my_strncmp(char *s1, char *s2, int max);
 char *my_strncpy(char *dest, char *src, int n);
 char **my_str_to_wordtab(char *str);
 int my_getnbr(char *str);
+char *my_strcat(char *str1, char *str2);
 
 int connectSocket(int argc, char **argv);
 char *getParam(int argc, char **argv, char *param);

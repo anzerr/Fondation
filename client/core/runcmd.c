@@ -42,7 +42,7 @@ int runCmd(char *line, t_core * core)
   int run;
   
   list = core->cmd;
-  run = (my_strcmp(line, "/bye") != 0);
+  run = (my_strncmp(line, "/bye", 4) != 0);
   if (run)
     {
       tmp = (t_command*)my_find_list(list, line, &cmpcommand);
@@ -55,7 +55,7 @@ int runCmd(char *line, t_core * core)
 	    }
 	}
     }
-  my_putstr((run) ? "/ko\n" : "closeing");
+  my_putstr((run) ? "/ko\n" : "This isn't brave. It's murder.\n");
   return (run);
 }
 

@@ -24,7 +24,8 @@ int main(int argc, char **argv)
 {
   t_core *core;
   int run;
-
+  char *line;
+  
   core = initCore();
   if ((core->sockfd = connectSocket(argc, argv)) >= 0)
     {
@@ -32,7 +33,10 @@ int main(int argc, char **argv)
       run = 1;
       while (run)
 	{
-	  run = runCmd(readLine(), core);
+	  my_putstr("> ");
+	  line = readLine();
+	  run = runCmd(line, core);
+	  free(line);
 	}
       close(core->sockfd);
       core->sockfd = 0;

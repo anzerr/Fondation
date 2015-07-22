@@ -16,9 +16,14 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <sys/stat.h>
-#include <sys/socket.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <string.h>
+#include <errno.h>
 
 typedef struct s_list
 {
@@ -26,25 +31,16 @@ typedef struct s_list
   struct s_list *next;
 } t_list;
 
-
 typedef struct s_core
 {
-  t_socket *socket;
-  
+  int sockfd;
   t_list *cmd;
 } t_core;
-
-typedef struct s_word
-{
-  char *fr;
-  char *wesh;
-} t_word;
 
 typedef struct s_command
 {
   char *command;
-  char *explain;
-  void (*func)();
+  int (*func)();
 } t_command;
 
 int my_strlen(char *str);
@@ -53,6 +49,31 @@ void my_putchar(char c);
 void my_putstr(char *str);
 char *my_strdup(char *str);
 int my_strcmp(char *s1, char *s2);
+int my_strncmp(char *s1, char *s2, int max);
+char *my_strncpy(char *dest, char *src, int n);
 char **my_str_to_wordtab(char *str);
+int my_getnbr(char *str);
+
+int connectSocket(int argc, char **argv);
+char *getParam(int argc, char **argv, char *param);
+void getIp(int argc, char **argv, struct in_addr *set);
+void my_memset(void *buff, int put, size_t size);
+
+char *readLine();
+
+void initCmd(t_core *c);
+void addCmd(t_list **cmd, char *com, int (*func)());
+int runCmd(char *arg, t_core *c);
+
+void my_sort_list(t_list **begin, int (*cmp)());
+t_list *my_add_list(t_list **begin);
+void my_remove_list(t_list **begin, void *data_ref, int (*cmp)());
+void *my_find_list(t_list *begin, void *data_ref, int (*cmp)());
+
+void messageSocket(t_core *core);
+
+int cmpcommand(t_command *node, char *str);
+
+int auth(t_core *core, char *line);
 
 #endif

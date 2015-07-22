@@ -7,19 +7,36 @@
 ** Started on  Fri Apr 17 10:36:53 2015 ANZER ryan
 ** Last update Sat Apr 18 13:55:35 2015 ANZER ryan
 */
-#include "header.h"
+#include "core/header.h"
+
+
+t_core *initCore()
+{
+  t_core *core;
+  if ((core = malloc(sizeof(t_core))) == NULL)
+    return (NULL);
+  core->cmd = NULL;
+  initCmd(core);
+  return (core);
+}
 
 int main(int argc, char **argv)
 {
-	int sockfd;
-	
-	if ((sockfd = connectSocket(argc, argv)) < 0)
-    {
-		// error do something
-    } else {
-		
-	}
+  t_core *core;
+  int run;
 
-	
-  return (0);
+  core = initCore();
+  if ((core->sockfd = connectSocket(argc, argv)) >= 0)
+    {
+      my_putstr("successfully connected.\n");
+      run = 1;
+      while (run)
+	{
+	  run = runCmd(readLine(), core);
+	}
+      close(core->sockfd);
+      core->sockfd = 0;
+    }
+  
+  return (core->sockfd);
 }

@@ -1,5 +1,10 @@
 SRC =	main.c \
-	core/connection.c
+	core/connection.c \
+	core/readline.c \
+	core/runcmd.c \
+	core/list.c \
+	core/cmp.c \
+	core/commands.c
 
 NAME =	fondation
 OBJO =	$(SRC:%.c=%.o)
